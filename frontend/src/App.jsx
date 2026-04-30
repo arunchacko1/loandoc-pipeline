@@ -12,7 +12,15 @@ function App() {
           <h1 className="text-4xl font-bold text-blue-600">LoanDoc Pipeline</h1>
           <p className="text-gray-600">Upload a borrower document to get started.</p>
           
-          <label className="block border-2 border-dashed border-gray-300 rounded-lg p-12 text-center cursor-pointer hover:border-blue-500 hover:bg-blue-50">
+          <label 
+          className="block border-2 border-dashed border-gray-300 rounded-lg p-12 text-center cursor-pointer hover:border-blue-500 hover:bg-blue-50"
+          onDragOver={(event) => event.preventDefault()}
+          onDrop={
+            (event) => {event.preventDefault()
+            const droppedFiles = Array.from(event.dataTransfer.files)
+            setSelectedFiles([...selectedFiles, ...droppedFiles])
+            }}
+          >
             <input 
               type="file" 
               accept=".pdf"
@@ -41,8 +49,17 @@ function App() {
                   </button>
                 </div>
           ))}
-  </div>
+                </div>
 )}
+            <div className="flex justify-end">
+            <button 
+              disabled={selectedFiles.length === 0}
+              onClick={() => console.log(selectedFiles)}
+              className="bg-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed"
+            >
+              Process documents
+            </button>
+          </div>
         </div>
       </div>
     </div>
